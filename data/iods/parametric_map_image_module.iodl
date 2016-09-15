@@ -1,0 +1,22 @@
+module DPMParametricMapImageModule "Parametric Map Image Module"
+{
+    (0008,0008) ImageType                   type1;
+    (0028,0002) SamplesPerPixel             type1;
+    (0028,0004) PhotometricInterpretation   type1;
+    (0028,0100) BitsAllocated               type1;
+    (0028,0101) BitsStored                  type1C
+                "Required if Pixel Data (7FE0,0010) or Pixel Data Provider URL (0028,7FE0) "
+                "is present.";
+    (0028,0102) HighBit                     type1C
+                "Required if Pixel Data (7FE0,0010) or Pixel Data Provider URL (0028,7FE0) "
+                "is present.";
+    (2050,0020) PresentationLUTShape        type1;
+    (0028,2110) LossyImageCompression       type1;
+    (0028,2112) LossyImageCompressionRatio  type1C
+                "Required if present in the source images or this IOD instance has been compressed";
+    (0028,2114) LossyImageCompressionMethod type1C
+                "Required if present in the source images or this IOD instance has been compressed";
+    (0028,0301) BurnedInAnnotation          type1;
+    (0028,0302) RecognizableVisualFeatures  type1;
+    (0018,9004) ContentQualification        type1;
+};

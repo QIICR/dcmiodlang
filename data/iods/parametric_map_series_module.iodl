@@ -1,0 +1,11 @@
+module DPMParametricMapSeriesModule "Parametric Map Series Module"
+{
+    (0008,0060) Modality        type1;
+    (0020,0011) SeriesNumber    type1;
+    (0008,1111) ReferencedPerformedProcedureStepSequence
+                (
+                    items=SOPInstanceReferenceMacro, VM=1
+                )
+                type1C "Required if a Performed Procedure Step SOP Class "
+                       "was involved in the creation of this Series";
+};

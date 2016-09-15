@@ -1,0 +1,32 @@
+template<typename IODImageType>
+iod ParametricMap "Parametric Map" : IODImageType
+{
+modules:
+    IODPatientModule                 M;
+    IODGeneralStudyModule            M;
+    IODPatientStudyModule            U;
+    IODGeneralSeriesModule           M;
+    DPMParametricMapSeriesModule     M;
+    IODFoRModule                     M;
+    IODGeneralEquipmentModule        M;
+    IODEnhGeneralEquipmentModule     M;
+    IODGeneralImageModule            M;
+    DPMParametricMapImageModule      M;
+    IODMultiFrameFGModule            M;
+    IODMultiframeDimensionModule     M;
+    IODAcquisitionContextModule      M;
+    IODCommonInstanceReferenceModule C;
+    IODSOPCommonModule               M;
+
+functional_groups:
+    FGPixelMeasures                    M;
+    FGPlanePosPatient                  M;
+    FGPlaneOrientationPatient          M;
+    FGDerivationImage                  C;
+    FGFrameContent                     M;
+    FGFrameAnatomy                     M;
+    FGIdentityPixelValueTransformation M;
+    FGFrameVOILUT                      M;
+    FGRealWorldValueMapping            M;
+    FGParametricMapFrameType           M;
+};

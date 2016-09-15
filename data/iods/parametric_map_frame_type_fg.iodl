@@ -1,0 +1,7 @@
+shared per_frame functional_group FGParametricMapFrameType "Parametric Map Frame Type"
+{
+    (0040,9092) ParametricMapFrameTypeSequence type1
+    {
+        (0008,9007) FrameType type1;
+    };
+};

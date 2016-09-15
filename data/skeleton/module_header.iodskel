@@ -1,0 +1,113 @@
+/*
+ *
+ *  Copyright (C) $<copyright>, Open Connections GmbH
+ *  All rights reserved.  See COPYRIGHT file for details.
+ *
+ *  This software and supporting documentation are maintained by
+ *
+ *    OFFIS e.V.
+ *    R&D Division Health
+ *    Escherweg 2
+ *    D-26121 Oldenburg, Germany
+ *
+ *
+ *  Module: $<implementation_module>
+ *
+ *  Author: $<author>
+ *
+ *  Purpose: Class for managing the $<module.name>
+ *
+ */
+
+#ifndef $<header_ifdef_guard>
+#define $<header_ifdef_guard>
+
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/ofstd/ofmem.h"
+#include "dcmtk/dcmiod/iodrules.h"
+#include "dcmtk/dcmiod/modbase.h"
+#include "dcmtk/$<implementation_module>/$<def_header>"$for( include : includes ) {
+#include "$<include>"}
+
+/** Class representing the $<module.name>:
+ *$for( attr : module ) {
+ *  $<attr.name>: ($<attr.vr>, $<attr.vm>, $<attr.type>)}
+ */
+class DCMTK_$toupper(implementation_module)_EXPORT $<module.keyword> : public IODModule
+{
+public:
+  /** Constructor
+   *  @param  item The item to be used for data storage. If NULL, the
+   *          class creates an empty data container.
+   *  @param  rules The rule set for this class. If NULL, the class creates
+   *          one from scratch and adds its values.
+   */
+  $<module.keyword>(OFshared_ptr<DcmItem> item,
+  $whitespace(module.keyword) OFshared_ptr<IODRules> rules);
+
+  /** Constructor
+   */
+  $<module.keyword>();
+
+  /** Destructor
+   */
+  virtual ~$<module.keyword>();
+
+  /** Resets rules to their original values
+   */
+  virtual void resetRules();
+
+  /** Get name of module ("$<module.keyword>")
+   *  @return Name of the module ("$<module.keyword>")
+   */
+  virtual OFString getName() const;
+
+  /** Read attributes from given item into this class
+   *  @param source  The source to read from
+   *  @param clearOldData If OFTrue, old data is cleared before reading. Otherwise
+   *         old data is overwritten (or amended)
+   *  @result EC_Normal if reading was successful, error otherwise
+   */
+  virtual OFCondition read(DcmItem& source,
+                           const OFBool clearOldData = OFTrue);
+
+  /** Write attributes from this class into given item
+   *  @param  destination The item to write to
+   *  @result EC_Normal if writing was successful, error otherwise
+   */
+  virtual OFCondition write(DcmItem& destination);$for( attr : module ) {
+
+  /** Get $if( attr.vr == VR.SQ ) {reference to the $<attr.name>
+   *  @return a reference to the $<attr.name>
+   */$if( attr.vm == VM(1) ) {
+  virtual $<attr.dataType>* get$<attr.keyword>();
+
+  /** Get a reference to the entire $<attr.name>, including items
+   *  exceeding the value multiplicity restriction of "1"
+   *  @return a reference to the entire $<attr.name>
+   */}
+  virtual OFVector<$<attr.dataType>>& get$if( attr.vm == VM(1) ){Entire}$<attr.keyword>();} $else {$<attr.name>
+   *  @param  value Reference to variable in which the value should be stored
+   *  @param  pos Index of the value to get (0..vm-1), -1 for all components
+   *  @return EC_Normal if successful, an error code otherwise
+   */
+  virtual OFCondition get$<attr.keyword>($<attr.dataType> &value,
+                         $whitespace(attr.keyword) const signed long pos = 0) const;}}$for( attr : module ) if( attr.vr != VR.SQ ) {
+
+  /** Set $<attr.name>
+   *  @param  value Value to be set (single value only) or "" for no value
+   *  @param  checkValue Check 'value' for conformance with VR ($<attr.vr>) and VM ($<attr.vm>) if enabled
+   *  @return EC_Normal if successful, an error code otherwise
+   */
+  virtual OFCondition set$<attr.keyword>(const $<attr.dataType> &value,
+                         $whitespace(attr.keyword) const OFBool checkValue = OFTrue);}
+
+protect:
+  /// The name of this module ("$<module.keyword>")
+  static const OFString m_ModuleName;$for( attr : module ) if( attr.vr == VR.SQ ) {
+
+  /// $<attr.name>
+  OFVector<$<attr.dataType>> m_$<attr.keyword>;}
+};
+
+#endif // $<header_ifdef_guard>

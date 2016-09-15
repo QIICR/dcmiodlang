@@ -1,0 +1,141 @@
+/*
+ *
+ *  Copyright (C) $<copyright>, Open Connections GmbH
+ *  All rights reserved.  See COPYRIGHT file for details.
+ *
+ *  This software and supporting documentation are maintained by
+ *
+ *    OFFIS e.V.
+ *    R&D Division Health
+ *    Escherweg 2
+ *    D-26121 Oldenburg, Germany
+ *
+ *
+ *  Module: $<implementation_module>
+ *
+ *  Author: $<author>
+ *
+ *  Purpose: Generated base class representing the $<iod.name> IOD
+ *
+ */
+
+#ifndef $<header_ifdef_guard>
+#define $<header_ifdef_guard>
+
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/dcmfg/fginterface.h"$for( include : includes ) {
+#include "$<include>"}
+#include "dcmtk/$<implementation_module>/$<implementation_module_short>def.h"
+
+/** Class for managing the $<iod.name> IOD attributes.
+ */$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+class DCMTK_$toupper(implementation_module)_EXPORT $toupper(implementation_module_short)$<iod.keyword>Base : public $<iod.base>
+{
+public:
+  /** Virtual Destructor
+   */
+  virtual ~$toupper(implementation_module_short)$<iod.keyword>Base();
+
+  // -------------------- loading and saving ---------------------
+
+  /** Load Segmentation object from item file
+   *  @param  filename The file to read from
+   *  @param  obj The resulting $<iod.name> object. OFnullptr if dataset
+   *          could not be read successfully.
+   *  @return EC_Normal if reading was successful, error otherwise
+   */
+  static OFCondition loadFile(const OFString& filename,
+                              $toupper(implementation_module_short)$<iod.keyword>Base*& obj);
+
+  /** Load Segmentation object from item object.
+   *  @param  dataset The dataset to read from
+   *  @param  obj The resulting $<iod.name> object. NULL if dataset
+   *          could not be read successfully.
+   *  @return EC_Normal if reading was successful, error otherwise
+   */
+  static OFCondition loadDataset(DcmDataset& dataset,
+                                 $toupper(implementation_module_short)$<iod.keyword>Base*& obj);
+
+  /** Save current object to given filename
+   *  @param  filename The file to write to
+   *  @param  writeXfer The transfer syntax to be used
+   *  @return EC_Normal if writing was successful, error otherwise.
+   */
+  OFCondition saveFile(const OFString& filename,
+                       const E_TransferSyntax writeXfer = EXS_LittleEndianExplicit);
+
+  /** Write current object to given item
+   *  @param  dataset The item to write to
+   *  @return EC_Normal if writing was successful, error otherwise.
+   */
+  OFCondition writeDataset(DcmItem& dataset);
+
+  /** Perform some basic checking. This method is also invoked when
+   *  writing the object to a DICOM dataset or file.
+   *  @return OFTrue, if no errors were found, OFFalse otherwise.
+   */
+  virtual OFBool check();
+
+  /** Get access to functional groups. This is meant for reading data from
+   *  functional groups that are not actively managed, i.e.\ made accessible by
+   *  DcmSegmentation. In rare cases, however, it makes sense to access it
+   *  for writing too, e.g.\ in order to add Stacks; use with care!
+   *  @return Reference to the functional groups
+   */
+  virtual FGInterface& getFunctionalGroups();$for( module : iod.modules ) {
+
+  /** Get $<module>
+   *  @return a reference to the $<module>
+   */
+  virtual $<module>& get$<module>();}
+
+protected:
+
+  /** Constructor
+   */
+  $toupper(implementation_module_short)$<iod.keyword>Base();
+
+  /** Read $<iod.name> attributes (all those handled by this class)
+   *  from given item. Reads attributes from base class DcmIODCommon before.
+   *  The current content is deleted even if the reading process fails.
+   *  If the log stream is set and valid the reason for any error might be
+   *  obtained from the error/warning output.
+   *  @param  dataset  Reference to DICOM dataset from which the document
+   *          should be read
+   *  @return EC_Normal if successful, an error code otherwise
+   */
+  virtual OFCondition read(DcmItem &dataset);
+
+  /** Write current $<iod.name>'s attributes to DICOM dataset. Also
+   *  writes attributes of base class DcmIODCommon afterwards.
+   *  @param  dataset Reference to DICOM dataset to which the current document
+   *          should be written.  The dataset is not cleared before writing
+   *          to it!
+   *  @return EC_Normal if successful, an error code otherwise
+   */
+  virtual OFCondition write(DcmItem &dataset);
+
+  /** Clear (removes) all attributes handled by the modules of this IOD.
+   *  IOD Rules are not reset.
+   */
+  virtual void clearData();
+
+  /** Loads file
+   *  @param  dcmff The file format to load into
+   *  @param  filename The filename of the file to load
+   *  @param  dset Pointer to dataset after loading
+   *  @return EC_Normal if loading was successful, error otherwise
+   */
+  static OFCondition loadFile(DcmFileFormat& dcmff,
+                              const OFString& filename,
+                              DcmDataset*& dset);
+
+  /// Multi-frame Functional Groups high level interface
+  FGInterface m_FGInterface;$for( module : iod.modules ) {
+
+  /// $<module>
+  $<module> m_$<module>;}
+};
+
+#endif // $<header_ifdef_guard>

@@ -1,0 +1,179 @@
+/*
+ *
+ *  Copyright (C) $<copyright>, Open Connections GmbH
+ *  All rights reserved.  See COPYRIGHT file for details.
+ *
+ *  This software and supporting documentation are maintained by
+ *
+ *    OFFIS e.V.
+ *    R&D Division Health
+ *    Escherweg 2
+ *    D-26121 Oldenburg, Germany
+ *
+ *
+ *  Module: $<implementation_module>
+ *
+ *  Author: $<author>
+ *
+ *  Purpose: Generated base class representing the $<iod.name> IOD
+ *
+ */
+
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/dcmiod/iodutil.h"
+#include "dcmtk/$<implementation_module>/$<types_header>"
+#include "$<my_include>"
+
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+$toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters ) <param>>}::$toupper(implementation_module_short)$<iod.keyword>Base()
+: $<iod.base>()$for( module : iod.modules ) {
+, m_$<module>($<iod.base>::getData(), $<iod.base>::getRules())}
+{
+//  $toupper(implementation_module_short)$<iod.keyword>Base::initIODRules();
+}
+
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+$toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::~$toupper(implementation_module_short)$<iod.keyword>Base()
+{
+  clearData();
+}
+
+
+/*void $toupper(implementation_module_short)$<iod.keyword>Base::initIODRules()
+{
+
+}*/
+
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+void $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters ) <param>>}::clearData()
+{
+  $<iod.base>::clearData();$for( module : iod ) {
+  m_$<module>.clearData();}
+}
+
+
+// static method for loading $<iod.name> objects$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadFile(const OFString& filename,
+$whitespace({OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadFile(})$toupper(implementation_module_short)$<iod.keyword>Base*& obj)
+{
+  DcmFileFormat dcmff;
+  DcmDataset *dataset = NULL;
+  OFCondition result = loadFile(dcmff, filename, dataset);
+  if (result.bad())
+    return result;
+
+  return loadDataset(*dataset, obj);
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadFile(DcmFileFormat& dcmff,
+$whitespace({OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadFile(})const OFString& filename,
+$whitespace({OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadFile(})DcmDataset*& dset)
+{
+  dset = NULL;
+  OFCondition result = dcmff.loadFile(filename.c_str());
+  if (result.bad())
+  {
+    $toupper(implementation_module)_ERROR("Could not load file " << filename << ": " << result.text());
+    return result;
+  }
+  dset = dcmff.getDataset();
+  if (dset == NULL)
+  {
+    $toupper(implementation_module)_ERROR("Could not load file " << filename << ": No dataset");
+    return IOD_EC_InvalidObject;
+  }
+  return result;
+}
+
+
+// static method for loading $<iod.name> objects$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadDataset(DcmDataset& dataset,
+$whitespace({OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::loadDataset(})$toupper(implementation_module_short)$<iod.keyword>Base*& obj)
+{
+  if(obj = new $toupper(implementation_module_short)$<iod.keyword>Base)
+    return obj->read(dataset);
+  return EC_MemoryExhausted;
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::read(DcmItem& dataset)
+{
+  OFString sopClass;
+  if(DcmIODUtil::checkSOPClass(&dataset, UID_$<iod.keyword>Storage, sopClass).bad())
+  {
+    $toupper(implementation_module)_ERROR("Given file does not seem to be a $<iod.name> storage object since SOP class is: " << sopClass);
+    return IOD_EC_WrongSOPClass;
+  }
+
+  $<iod.base>::read(dataset);$for( module : iod.modules ) {
+  m_$<module>.read(dataset);}
+
+  return EC_Normal;
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::saveFile(const OFString& filename,
+$whitespace({OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::saveFile(})const E_TransferSyntax writeXfer)
+{
+  DcmFileFormat dcmff;
+  OFCondition result;
+  if((result = write(*dcmff.getDataset())).good())
+    result = dcmff.saveFile(filename.c_str(), writeXfer);
+  if(result.bad())
+    $toupper(implementation_module)_ERROR("Cannot save $<iod.name> object to file " << filename << ": " << result.text());
+  return result;
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::writeDataset(DcmItem& dataset)
+{
+  return write(dataset);
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFCondition $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::write(DcmItem& dataset)
+{
+  if(!check())
+    return IOD_EC_InvalidObject;
+
+  OFCondition result;$for( module : iod.modules ) {
+  if((result = m_$<module>.write(dataset)).good())}
+    return $<iod.base>::write(dataset);
+
+  return result;
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+OFBool $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::check()
+{
+  return m_FGInterface.check();
+}
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+FGInterface& $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::getFunctionalGroups()
+{
+  return m_FGInterface;
+}$for( module : iod.modules ) {
+
+$if( iod.templateParameters ) {
+template <$for( param : iod.templateParameters ) {typename $<param>}>}
+$<module>& $toupper(implementation_module_short)$<iod.keyword>Base$if( iod.templateParameters ) {<$for( param : iod.templateParameters )<param>>}::get$<module>()
+{
+  return m_$<module>;
+$}}

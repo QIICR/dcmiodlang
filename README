@@ -1,0 +1,30 @@
+dcmiodlang
+
+dcmiodlang is the implementation of a custom DICOM information object definition
+language (IODL) and a compatible transformation language, the information object
+definition [transformation] skeleton language (IODSKEL).
+
+DICOM IOD Macros, Modules, Functional Groups and their composition as IODs may
+be described utilizing the IODL and can then be translated to any other repre-
+sentatio (e.g. C++ source code) utilizing the IODSKEL.
+
+Example usage of the IODL compiler application "iodc":
+
+  Print command line options and basic usage:
+
+    iodc --help
+
+  Generate the C++ header and source file for the Parametric Map Image Module:
+
+    iodc -s </path/to/dcmiodlang>/data/skeleton \
+         </path/to/dcmiodlang>/iods/config.iodl \
+         </path/to/dcmiodlang>/iods/parametric_map_image_module.iodl
+
+dcmiodlang depends on the boost C++ libraries and DCMTK, which are required for
+compiling the above mentioned compiler application. Don't forget to also install
+DCMTK's data dictionary before using iodc, or set the environment variable, e.g.:
+
+    DCMDICTPATH=<path/to/dcmtk>/data/dicom.dic iodc -s \
+         </path/to/dcmiodlang>/data/skeleton \
+         </path/to/dcmiodlang>/iods/config.iodl \
+         </path/to/dcmiodlang>/iods/parametric_map_image_module.iodl

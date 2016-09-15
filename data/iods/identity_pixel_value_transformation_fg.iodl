@@ -1,0 +1,9 @@
+shared per_frame functional_group FGIdentityPixelValueTransformation "Identity Pixel Value Transformation"
+{
+    (0028,9145) PixelValueTransformationSequence type1
+    {
+        (0028,1052) RescaleIntercept type1;
+        (0028,1053) RescaleSlope     type1;
+        (0028,1054) RescaleType      type1;
+    };
+};

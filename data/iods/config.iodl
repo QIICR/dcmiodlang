@@ -1,0 +1,69 @@
+property author = "Jan Schlamelcher";
+property copyright = "2016";
+property implementation_module = "dcmpmap";
+property implementation_module_short = "dpm";
+property def_header = "dpmdef.h";
+property types_header = "dpmtypes.h";
+
+files SOPInstanceReferenceMacro        { include = "dcmtk/dcmiod/iodmacro.h"; };
+
+files IODPatientModule                 { include = "dcmtk/dcmiod/modpatient.h"; };
+files IODGeneralStudyModule            { include = "dcmtk/dcmiod/modgeneralstudy.h"; };
+files IODPatientStudyModule            { include = "dcmtk/dcmiod/modpatientstudy.h"; };
+files IODGeneralSeriesModule           { include = "dcmtk/dcmiod/modgeneralseries.h"; };
+files IODFoRModule                     { include = "dcmtk/dcmiod/modfor.h"; };
+files IODGeneralEquipmentModule        { include = "dcmtk/dcmiod/modequipment.h"; };
+files IODEnhGeneralEquipmentModule     { include = "dcmtk/dcmiod/modenhequipment.h"; };
+files IODGeneralImageModule            { include = "dcmtk/dcmiod/modgeneralimage.h"; };
+files IODImagePixelModule              { include = "dcmtk/dcmiod/modimagepixel.h"; };
+files IODMultiFrameFGModule            { include = "dcmtk/dcmiod/modmultiframefg.h"; };
+files IODMultiframeDimensionModule     { include = "dcmtk/dcmiod/modmultiframedimension.h"; };
+files IODAcquisitionContextModule      { include = "dcmtk/dcmiod/modacquisitioncontext.h"; };
+files IODCommonInstanceReferenceModule { include = "dcmtk/dcmiod/modcommoninstanceref.h"; };
+files IODSOPCommonModule               { include = "dcmtk/dcmiod/modsopcommon.h"; };
+
+files FGPixelMeasures                  { include = "dcmtk/dcmfg/fgpixmsr.h"; };
+files FGPlanePosPatient                { include = "dcmtk/dcmfg/fgplanpo.h"; };
+files FGPlaneOrientationPatient        { include = "dcmtk/dcmfg/fgplanor.h"; };
+files FGDerivationImage                { include = "dcmtk/dcmfg/fgderimg.h"; };
+files FGFrameContent                   { include = "dcmtk/dcmfg/fgfracon.h"; };
+files FGFrameAnatomy                   { include = "dcmtk/dcmfg/fgframeanatomy.h"; };
+files FGFrameVOILUT                    { include = "dcmtk/dcmfg/fgframevoilut.h"; };
+files FGRealWorldValueMapping          { include = "dcmtk/dcmfg/fgrealworldvaluemapping.h"; };
+
+files IODImageType                     { include = "dcmtk/dcmiod/iodimage.h"; };
+
+files FGIdentityPixelValueTransformation
+{
+    include = "dcmtk/dcmfg/fgidentpixeltransform.h";
+    header  = "dcmfg/include/dcmtk/dcmfg/fgidentpixeltransform.h";
+    source  = "dcmfg/libsrc/fgidentpixeltransform.cc";
+};
+
+files FGParametricMapFrameType
+{
+    include = "dcmtk/dcmfg/fgparametricmapframetype.h";
+    header  = "dcmfg/include/dcmtk/dcmfg/fgparametricmapframetype.h";
+    source  = "dcmfg/libsrc/fgparametricmapframetype.cc";
+};
+
+files DPMParametricMapSeriesModule
+{
+    include = "dcmtk/dcmpmap/dpmmodparametricmapseries.h";
+    header  = "dcmpmap/include/dcmtk/dcmpmap/dpmmodparametricmapseries.h";
+    source  = "dcmpmap/libsrc/dpmmodparametricmapseries.cc";
+};
+
+files DPMParametricMapImageModule
+{
+    include = "dcmtk/dcmpmap/dpmmodparametricmapimage.h";
+    header  = "dcmpmap/include/dcmtk/dcmpmap/dpmmodparametricmapimage.h";
+    source  = "dcmpmap/libsrc/dpmmodparametricmapimage.cc";
+};
+
+files ParametricMap
+{
+    include = "dcmtk/dcmpmap/dpmparametricmap.h";
+    header  = "dcmpmap/include/dcmtk/dcmpmap/dpmparametricmap.h";
+    source  = "dcmpmap/libsrc/dpmparametricmap.cc";
+};

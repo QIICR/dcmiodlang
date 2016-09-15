@@ -1,0 +1,142 @@
+/*
+ *
+ *  Copyright (C) $<copyright>, Open Connections GmbH
+ *  All rights reserved.  See COPYRIGHT file for details.
+ *
+ *  This software and supporting documentation are maintained by
+ *
+ *    OFFIS e.V.
+ *    R&D Division Health
+ *    Escherweg 2
+ *    D-26121 Oldenburg, Germany
+ *
+ *
+ *  Module: $<implementation_module>
+ *
+ *  Author: $<author>
+ *
+ *  Purpose: Class for managing the $<functional_group.name>
+ *
+ */
+
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/dcmdata/dcdeftag.h"
+#include "dcmtk/dcmiod/iodutil.h"
+#include "$<my_include>"
+
+
+$<functional_group.keyword>::$<functional_group.keyword>()
+: FGBase(DcmFGTypes::EFG_UNDEFINED) // TODO$for( sq : functional_group ) for( attr : sq ) {
+, m_$<attr.keyword>(DCM_$<attr.keyword>)}
+{
+
+}
+
+
+$<functional_group.keyword>::~$<functional_group.keyword>()
+{
+
+}
+
+
+void $<functional_group.keyword>::clearData()
+{$for( sq : functional_group ) for( attr : sq ) {
+  m_$<attr.keyword>.clear();}
+}
+
+
+virtual OFCondition check() const
+{
+  return EC_Normal;
+}
+
+
+FGBase* $<functional_group.keyword>::clone() const
+{
+  if($<functional_group.keyword>* copy = new $<functional_group.keyword>)
+  {$for( sq : functional_group ) for( attr : sq ) {
+    copy->m_$<attr.keyword> = m_$<attr.keyword>;}
+    return copy;
+  }
+  return OFnullptr;
+}
+
+
+OFCondition $<functional_group.keyword>::read(DcmItem& item)
+{
+  clearData();
+
+  DcmItem* seqItem;
+  OFCondition result;$for( sq : functional_group ) {
+
+  seqItem = OFnullptr;
+  result = getItemFromFGSequence(item, DCM_$<sq.keyword>, 0, seqItem);
+  if(result.bad())
+    return result;$for( attr : sq ) {
+  DcmIODUtil::getAndCheckElementFromDataset(*seqItem, m_$<attr.keyword>, "$<attr.vm>", "$<attr.type>", "$<functional_group.name>");}}
+
+  return EC_Normal;
+}
+
+
+OFCondition $<functional_group.keyword>::write(DcmItem& item)
+{
+  DcmItem* seqItem;
+  OFCondition result = check();
+  if(result.bad())
+    return result;$for( sq : functional_group ) {
+
+  seqItem = OFnullptr;
+  result = createNewFGSequence(item, DCM_$<sq.keyword>, 0, seqItem);
+  if(result.bad())
+    return result;$for( attr : sq ) {
+  DcmIODUtil::copyElementToDataset(result, *seqItem, m_$<attr.keyword>, "$<attr.vm>", "$<attr.type>", "$<functional_group.name>");}}
+
+  return result;
+}
+
+
+int $<functional_group.keyword>::compare(const FGBase& rhs) const
+{
+  int result = FGBase::compare(rhs);
+  if(result == 0)
+  {
+    const $<functional_group.keyword>* myRhs = OFstatic_cast(const $<functional_group.keyword>*, &rhs);
+
+    // Compare all elements$for( sq : functional_group ) for( attr : sq ) {
+    result = m_$<attr.keyword>.compare(myRhs->m_$<attr.keyword>);}
+  }
+
+  return result;
+}$for( sq : functional_group ) for( attr : sq ) {
+
+
+$if( attr.vr == VR.SQ ) {$if( attr.vm == VM(1) ) {$<attr.dataType>* $<functional_group.keyword>::get$<attr.keyword>()
+{
+  return m_$<attr.keyword>.empty() ? OFnullptr : &*m_$<attr.keyword>.begin();
+$}
+}
+OFVector<$<attr.dataType>>& $<functional_group.keyword>::get$if( attr.vm == VM(1) ){Entire}$<attr.keyword>()
+{
+  return m_$<attr.keyword>;
+$}} $else {OFCondition $<functional_group.keyword>::get$<attr.keyword>($<attr.dataType> &value,
+$whitespace({OFCondition $<functional_group.keyword>::get$<attr.keyword>(})const signed long pos) const
+{
+  return $if( attr.vr.isStringBased )
+    {DcmIODUtil::getStringValueFromElement(m_$<attr.keyword>}
+  $else
+    {m_Item->findAndGet$<attr.dataType>(DCM_$<attr.keyword>}, value, pos);
+$}}}$for( sq : functional_group ) for( attr : sq ) if( attr.vr != VR.SQ ) {
+
+
+OFCondition $<functional_group.keyword>::set$<attr.keyword>(const $<attr.dataType> &value,
+            $whitespace({$<functional_group.keyword>::set$<attr.keyword>(})const OFBool checkValue)
+{
+  $if( attr.vr.canCheckVM )
+  {OFCondition result = (checkValue) ? $<attr.vr.dcmtkClass>::checkStringValue(value, "$<attr.type>") : EC_Normal;
+  if (result.good())
+    result =}
+$else
+  {return} m_$<attr.keyword>.put$if( attr.vr.isStringBased ){String} $else {$<attr.dataType>}(value$if( attr.vr.isStringBased ){.c_str()});$if( attr.vr.canCheckVM ) {
+  return result;}
+$}}

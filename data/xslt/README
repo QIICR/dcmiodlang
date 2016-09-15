@@ -1,0 +1,27 @@
+This folder contains xslt sheets for extracting information from DICOM part 3
+into the iodlang format. They may be applied to the DICOM standard using any
+appropriate xslt interpreter, e.g. xsltproc.
+
+Extraction is based on a "keyword dictionary", an XML file mapping keywords
+to sections, tables and long names in the actual standard. Use
+'make_dictionary.xslt' to extract the initial dictionary from the standard
+and edit the resulting file to your liking (e.g. change the keywords to
+include a custom prefix etc.).
+
+Both 'extract-iod.xslt' and 'extract-attribute-set.xslt' require the
+dictionary to reside in the current working directory as a file called
+'iod-dict.xml'. They may be used to extract either IODs or the other kinds
+of entities (Modules, Macros and Functional Groups) from the standard
+respectively, given either the keyword or the section (and the table id in
+case the section id is not unique for some macros etc.) as a parameter.
+
+Examples:
+  xsltproc make_dictionary.xslt part03.xml > iod-dict.xml
+
+  xsltproc --stringparam keyword ParametricMap extract-iod.xslt part03.xml
+
+  xsltproc --stringparam keyword ParametricMapSeries extract-attribute-set.xslt part03.xml
+
+  xsltproc --stringparam section C.8.32.2 extract-attribute-set.xslt part03.xml
+
+  xsltproc --stringparam section C.8.32.3.1 --stringparam table PS3.3_C.8.32-3 extract-attribute-set.xslt part03.xml
