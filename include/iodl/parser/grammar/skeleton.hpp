@@ -78,12 +78,12 @@ namespace iodl { namespace parser { namespace grammar {
 
             expression = lhs[_val = _1] >> *skip(space)
                        [
-                           lit( "==" ) >> lhs[_val=bind(&boost::make_shared<generator::Equal,const generator::Component,const generator::Component>,_val,_1)] |
-                           lit( "!=" ) >> lhs[_val=bind(&boost::make_shared<generator::NotEqual,const generator::Component,const generator::Component>,_val,_1)]
+                           lit( "==" ) >> lhs[_val=bind(&boost::make_shared<generator::Equal,const generator::Component&,const generator::Component&>,_val,_1)] |
+                           lit( "!=" ) >> lhs[_val=bind(&boost::make_shared<generator::NotEqual,const generator::Component&,const generator::Component&>,_val,_1)]
                        ]
                        ;
 
-            lhs = skip(space)[lit( '!' ) >> lhs[_val=bind(&boost::make_shared<generator::Not,const generator::Component>,_1)]]
+            lhs = skip(space)[lit( '!' ) >> lhs[_val=bind(&boost::make_shared<generator::Not,const generator::Component&>,_1)]]
                 | vm[_val=_1]
                 | reference[_val=_1]
                 ;
